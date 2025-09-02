@@ -24,9 +24,9 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/cloudwego/hertz/cmd/hz/meta"
-	"github.com/cloudwego/hertz/cmd/hz/util"
-	"github.com/cloudwego/hertz/cmd/hz/util/logs"
+	"github.com/eliohn/hertz/cmd/hz/meta"
+	"github.com/eliohn/hertz/cmd/hz/util"
+	"github.com/eliohn/hertz/cmd/hz/util/logs"
 )
 
 func lookupTool(idlType string) (string, error) {

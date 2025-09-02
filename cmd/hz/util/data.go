@@ -27,7 +27,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/cloudwego/hertz/cmd/hz/util/logs"
+	"github.com/eliohn/hertz/cmd/hz/util/logs"
 )
 
 func CopyStringSlice(from, to *[]string) {

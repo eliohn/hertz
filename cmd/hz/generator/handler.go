@@ -24,9 +24,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cloudwego/hertz/cmd/hz/generator/model"
-	"github.com/cloudwego/hertz/cmd/hz/util"
-	"github.com/cloudwego/hertz/cmd/hz/util/logs"
+	"github.com/eliohn/hertz/cmd/hz/generator/model"
+	"github.com/eliohn/hertz/cmd/hz/util"
+	"github.com/eliohn/hertz/cmd/hz/util/logs"
 )
 
 type HttpMethod struct {
