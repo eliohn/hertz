@@ -296,6 +296,10 @@ func (m *HttpMethod) InitComment() {
 	} else {
 		text = "// " + m.Name + " " + text
 	}
+	text += "// @Summary 测试 Summary\n"
+	text += "// @Description 测试 Summary\n"
+	text += "// @Accept application/json\n"
+	text += "// @Produce application/json\n"
 	text = strings.Replace(text, "\n", "\n// ", -1)
 	if !strings.Contains(text, "@router ") {
 		text += "\n// @router " + m.Path
