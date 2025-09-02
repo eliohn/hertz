@@ -56,6 +56,7 @@ type Handler struct {
 	ProjPackage string
 	Imports     map[string]*model.Model
 	Methods     []*HttpMethod
+	GenPackage  string
 }
 
 type SingleHandler struct {
@@ -81,6 +82,7 @@ func (pkgGen *HttpPackageGenerator) genHandler(pkg *HttpPackage, handlerDir, han
 					PackageName: util.SplitPackage(filepath.Dir(filePath), ""),
 					Methods:     []*HttpMethod{m},
 					ProjPackage: pkgGen.ProjPackage,
+					GenPackage:  pkg.Package,
 				}
 
 				if err := pkgGen.processHandler(&handler, root, handlerDir, m.OutputDir, true); err != nil {
@@ -105,6 +107,7 @@ func (pkgGen *HttpPackageGenerator) genHandler(pkg *HttpPackage, handlerDir, han
 				PackageName: util.SplitPackage(tmpHandlerPackage, ""),
 				Methods:     s.Methods,
 				ProjPackage: pkgGen.ProjPackage,
+				GenPackage:  pkg.Package,
 			}
 
 			for _, m := range s.Methods {
