@@ -22,7 +22,7 @@ import (
 )
 
 // Version hz version
-const Version = "v0.9.7-v3"
+const Version = "v0.9.7.5"
 
 const DefaultServiceName = "hertz_service"
 
