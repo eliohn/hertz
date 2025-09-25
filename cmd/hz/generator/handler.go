@@ -24,9 +24,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/eliohn/hertz/cmd/hz/generator/model"
-	"github.com/eliohn/hertz/cmd/hz/util"
-	"github.com/eliohn/hertz/cmd/hz/util/logs"
+	"github.com/cloudwego/hertz/cmd/hz/generator/model"
+	"github.com/cloudwego/hertz/cmd/hz/util"
+	"github.com/cloudwego/hertz/cmd/hz/util/logs"
 )
 
 type HttpMethod struct {
@@ -296,10 +296,6 @@ func (m *HttpMethod) InitComment() {
 	} else {
 		text = "// " + m.Name + " " + text
 	}
-	text += "\n@Summary 测试 Summary"
-	text += "\n@Description 测试 Summary"
-	text += "\n@Accept application/json"
-	text += "\n@Produce application/json"
 	text = strings.Replace(text, "\n", "\n// ", -1)
 	if !strings.Contains(text, "@router ") {
 		text += "\n// @router " + m.Path

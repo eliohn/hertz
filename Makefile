@@ -54,3 +54,11 @@ release: package-release sign-release
 
 version:
 	@go version
+
+build_tool:
+	cd ./cmd/hz && go build -o bin/hz.exe .
+
+
+
+install_tool: build_tool
+	@cp ./cmd/hz/bin/hz.exe C:\Users\yihui\go\bin

@@ -19,8 +19,8 @@ package main
 import (
 	"os"
 
-	"github.com/eliohn/hertz/cmd/hz/app"
-	"github.com/eliohn/hertz/cmd/hz/util/logs"
+	"github.com/cloudwego/hertz/cmd/hz/app"
+	"github.com/cloudwego/hertz/cmd/hz/util/logs"
 )
 
 func main() {

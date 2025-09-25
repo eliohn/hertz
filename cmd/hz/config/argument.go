@@ -22,9 +22,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/eliohn/hertz/cmd/hz/meta"
-	"github.com/eliohn/hertz/cmd/hz/util"
-	"github.com/eliohn/hertz/cmd/hz/util/logs"
+	"github.com/cloudwego/hertz/cmd/hz/meta"
+	"github.com/cloudwego/hertz/cmd/hz/util"
+	"github.com/cloudwego/hertz/cmd/hz/util/logs"
 	"github.com/urfave/cli/v2"
 )
 
@@ -75,6 +75,7 @@ type Argument struct {
 	SnakeStyleMiddleware bool
 	EnableExtends        bool
 	SortRouter           bool
+	GenDefaultHTTPTags   bool // 控制是否生成默认的 HTTP 标签（form, query）
 
 	// client flag
 	EnableClientOptional bool
@@ -87,11 +88,12 @@ type Argument struct {
 
 func NewArgument() *Argument {
 	return &Argument{
-		OptPkgMap:     make(map[string]string),
-		Includes:      make([]string, 0, 4),
-		Excludes:      make([]string, 0, 4),
-		ProtocOptions: make([]string, 0, 4),
-		ThriftOptions: make([]string, 0, 4),
+		OptPkgMap:          make(map[string]string),
+		Includes:           make([]string, 0, 4),
+		Excludes:           make([]string, 0, 4),
+		ProtocOptions:      make([]string, 0, 4),
+		ThriftOptions:      make([]string, 0, 4),
+		GenDefaultHTTPTags: true, // 默认启用生成默认 HTTP 标签
 	}
 }
 

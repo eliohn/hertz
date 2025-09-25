@@ -20,9 +20,9 @@ import (
 	"io/ioutil"
 	"testing"
 
+	"github.com/cloudwego/hertz/cmd/hz/generator"
+	"github.com/cloudwego/hertz/cmd/hz/meta"
 	"github.com/cloudwego/thriftgo/plugin"
-	"github.com/eliohn/hertz/cmd/hz/generator"
-	"github.com/eliohn/hertz/cmd/hz/meta"
 )
 
 func TestRun(t *testing.T) {

@@ -25,17 +25,17 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/cloudwego/hertz/cmd/hz/config"
+	"github.com/cloudwego/hertz/cmd/hz/generator"
+	"github.com/cloudwego/hertz/cmd/hz/generator/model"
+	"github.com/cloudwego/hertz/cmd/hz/meta"
+	"github.com/cloudwego/hertz/cmd/hz/util"
+	"github.com/cloudwego/hertz/cmd/hz/util/logs"
 	"github.com/cloudwego/thriftgo/generator/backend"
 	"github.com/cloudwego/thriftgo/generator/golang"
 	"github.com/cloudwego/thriftgo/generator/golang/styles"
 	"github.com/cloudwego/thriftgo/parser"
 	thriftgo_plugin "github.com/cloudwego/thriftgo/plugin"
-	"github.com/eliohn/hertz/cmd/hz/config"
-	"github.com/eliohn/hertz/cmd/hz/generator"
-	"github.com/eliohn/hertz/cmd/hz/generator/model"
-	"github.com/eliohn/hertz/cmd/hz/meta"
-	"github.com/eliohn/hertz/cmd/hz/util"
-	"github.com/eliohn/hertz/cmd/hz/util/logs"
 )
 
 type Plugin struct {
@@ -430,13 +430,7 @@ func (plugin *Plugin) GetResponse(files []generator.File, outputDir string) (*th
 		contents = append(contents, content)
 	}
 
-	insertTag, err := plugin.InsertTag()
-	if err != nil {
-		return nil, err
-	}
-
-	contents = append(contents, insertTag...)
-
+	// 不再需要 InsertTag，因为 thriftgo 已经直接生成了带有标签的代码
 	return &thriftgo_plugin.Response{
 		Contents: contents,
 	}, nil

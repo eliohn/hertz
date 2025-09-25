@@ -21,7 +21,7 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig/v3"
-	"github.com/eliohn/hertz/cmd/hz/util"
+	"github.com/cloudwego/hertz/cmd/hz/util"
 )
 
 var funcMap = func() template.FuncMap {

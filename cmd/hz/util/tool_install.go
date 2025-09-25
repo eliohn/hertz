@@ -24,8 +24,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/eliohn/hertz/cmd/hz/meta"
-	"github.com/eliohn/hertz/cmd/hz/util/logs"
+	"github.com/cloudwego/hertz/cmd/hz/meta"
+	"github.com/cloudwego/hertz/cmd/hz/util/logs"
 	gv "github.com/hashicorp/go-version"
 )
 

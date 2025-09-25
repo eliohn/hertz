@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/eliohn/hertz/cmd/hz/util"
+	"github.com/cloudwego/hertz/cmd/hz/util"
 )
 
 type File struct {

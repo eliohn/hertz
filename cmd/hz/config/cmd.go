@@ -24,9 +24,9 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/eliohn/hertz/cmd/hz/meta"
-	"github.com/eliohn/hertz/cmd/hz/util"
-	"github.com/eliohn/hertz/cmd/hz/util/logs"
+	"github.com/cloudwego/hertz/cmd/hz/meta"
+	"github.com/cloudwego/hertz/cmd/hz/util"
+	"github.com/cloudwego/hertz/cmd/hz/util/logs"
 )
 
 func lookupTool(idlType string) (string, error) {
@@ -173,7 +173,13 @@ func BuildPluginCmd(args *Argument) (*exec.Cmd, error) {
 }
 
 func (arg *Argument) GetThriftgoOptions() (string, error) {
-	defaultOpt := "reserve_comments,gen_json_tag=false,"
+	// 默认启用 GenDefaultHTTPTags，除非用户明确禁用
+	genDefaultHTTPTags := "gen_default_http_tags=true"
+	if !arg.GenDefaultHTTPTags {
+		genDefaultHTTPTags = "gen_default_http_tags=false"
+	}
+
+	defaultOpt := "reserve_comments,gen_json_tag=false," + genDefaultHTTPTags + ","
 	prefix, err := arg.ModelPackagePrefix()
 	if err != nil {
 		return "", err

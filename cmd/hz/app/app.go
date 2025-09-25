@@ -23,13 +23,13 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/eliohn/hertz/cmd/hz/config"
-	"github.com/eliohn/hertz/cmd/hz/generator"
-	"github.com/eliohn/hertz/cmd/hz/meta"
-	"github.com/eliohn/hertz/cmd/hz/protobuf"
-	"github.com/eliohn/hertz/cmd/hz/thrift"
-	"github.com/eliohn/hertz/cmd/hz/util"
-	"github.com/eliohn/hertz/cmd/hz/util/logs"
+	"github.com/cloudwego/hertz/cmd/hz/config"
+	"github.com/cloudwego/hertz/cmd/hz/generator"
+	"github.com/cloudwego/hertz/cmd/hz/meta"
+	"github.com/cloudwego/hertz/cmd/hz/protobuf"
+	"github.com/cloudwego/hertz/cmd/hz/thrift"
+	"github.com/cloudwego/hertz/cmd/hz/util"
+	"github.com/cloudwego/hertz/cmd/hz/util/logs"
 	"github.com/urfave/cli/v2"
 )
 
@@ -188,6 +188,7 @@ func Init() *cli.App {
 	protoCamelJSONTag := cli.BoolFlag{Name: "pb_camel_json_tag", Usage: "Convert Name style for json tag to camel(Only works protobuf).", Destination: &globalArgs.ProtobufCamelJSONTag}
 	snakeNameFlag := cli.BoolFlag{Name: "snake_tag", Usage: "Use snake_case style naming for tags. (Only works for 'form', 'query', 'json')", Destination: &globalArgs.SnakeName}
 	rmTagFlag := cli.StringSliceFlag{Name: "rm_tag", Usage: "Remove the default tag(json/query/form). If the annotation tag is set explicitly, it will not be removed."}
+	genDefaultHTTPTagsFlag := cli.BoolFlag{Name: "gen_default_http_tags", Usage: "Generate default HTTP tags (form, query) in thriftgo. Default is true.", Destination: &globalArgs.GenDefaultHTTPTags}
 	customLayout := cli.StringFlag{Name: "customize_layout", Usage: "Specify the path for layout template.", Destination: &globalArgs.CustomizeLayout}
 	customLayoutData := cli.StringFlag{Name: "customize_layout_data_path", Usage: "Specify the path for layout template render data.", Destination: &globalArgs.CustomizeLayoutData}
 	customPackage := cli.StringFlag{Name: "customize_package", Usage: "Specify the path for package template.", Destination: &globalArgs.CustomizePackage}
@@ -241,6 +242,7 @@ func Init() *cli.App {
 				&protoCamelJSONTag,
 				&snakeNameFlag,
 				&rmTagFlag,
+				&genDefaultHTTPTagsFlag,
 				&excludeFilesFlag,
 				&customLayout,
 				&customLayoutData,
@@ -277,6 +279,7 @@ func Init() *cli.App {
 				&protoCamelJSONTag,
 				&snakeNameFlag,
 				&rmTagFlag,
+				&genDefaultHTTPTagsFlag,
 				&excludeFilesFlag,
 				&customPackage,
 				&handlerByMethod,
@@ -305,6 +308,7 @@ func Init() *cli.App {
 				&protoCamelJSONTag,
 				&snakeNameFlag,
 				&rmTagFlag,
+				&genDefaultHTTPTagsFlag,
 				&excludeFilesFlag,
 			},
 			Action: Model,
@@ -336,6 +340,7 @@ func Init() *cli.App {
 				&protoCamelJSONTag,
 				&snakeNameFlag,
 				&rmTagFlag,
+				&genDefaultHTTPTagsFlag,
 				&excludeFilesFlag,
 				&customPackage,
 				&protoPluginsFlag,
