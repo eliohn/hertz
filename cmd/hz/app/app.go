@@ -189,6 +189,7 @@ func Init() *cli.App {
 	snakeNameFlag := cli.BoolFlag{Name: "snake_tag", Usage: "Use snake_case style naming for tags. (Only works for 'form', 'query', 'json')", Destination: &globalArgs.SnakeName}
 	rmTagFlag := cli.StringSliceFlag{Name: "rm_tag", Usage: "Remove the default tag(json/query/form). If the annotation tag is set explicitly, it will not be removed."}
 	genDefaultHTTPTagsFlag := cli.BoolFlag{Name: "gen_default_http_tags", Usage: "Generate default HTTP tags (form, query) in thriftgo. Default is true.", Destination: &globalArgs.GenDefaultHTTPTags}
+	disableHertzTagPluginFlag := cli.BoolFlag{Name: "disable_hertz_tag_plugin", Usage: "Disable hertz tag processing plugin, let thriftgo handle all tags directly. Default is true.", Destination: &globalArgs.DisableHertzTagPlugin}
 	customLayout := cli.StringFlag{Name: "customize_layout", Usage: "Specify the path for layout template.", Destination: &globalArgs.CustomizeLayout}
 	customLayoutData := cli.StringFlag{Name: "customize_layout_data_path", Usage: "Specify the path for layout template render data.", Destination: &globalArgs.CustomizeLayoutData}
 	customPackage := cli.StringFlag{Name: "customize_package", Usage: "Specify the path for package template.", Destination: &globalArgs.CustomizePackage}
@@ -243,6 +244,7 @@ func Init() *cli.App {
 				&snakeNameFlag,
 				&rmTagFlag,
 				&genDefaultHTTPTagsFlag,
+				&disableHertzTagPluginFlag,
 				&excludeFilesFlag,
 				&customLayout,
 				&customLayoutData,
@@ -280,6 +282,7 @@ func Init() *cli.App {
 				&snakeNameFlag,
 				&rmTagFlag,
 				&genDefaultHTTPTagsFlag,
+				&disableHertzTagPluginFlag,
 				&excludeFilesFlag,
 				&customPackage,
 				&handlerByMethod,
@@ -309,6 +312,7 @@ func Init() *cli.App {
 				&snakeNameFlag,
 				&rmTagFlag,
 				&genDefaultHTTPTagsFlag,
+				&disableHertzTagPluginFlag,
 				&excludeFilesFlag,
 			},
 			Action: Model,
@@ -341,6 +345,7 @@ func Init() *cli.App {
 				&snakeNameFlag,
 				&rmTagFlag,
 				&genDefaultHTTPTagsFlag,
+				&disableHertzTagPluginFlag,
 				&excludeFilesFlag,
 				&customPackage,
 				&protoPluginsFlag,

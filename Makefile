@@ -61,4 +61,5 @@ build_tool:
 
 
 install_tool: build_tool
-	@cp ./cmd/hz/bin/hz.exe C:\Users\yihui\go\bin
+	cd ./cmd/hz/bin && cp hz.exe C:\\Users\\yihui\\go\\bin
+	echo "install tool success"

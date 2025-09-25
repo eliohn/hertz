@@ -34,7 +34,6 @@ import (
 	"github.com/cloudwego/thriftgo/generator/backend"
 	"github.com/cloudwego/thriftgo/generator/golang"
 	"github.com/cloudwego/thriftgo/generator/golang/styles"
-	"github.com/cloudwego/thriftgo/parser"
 	thriftgo_plugin "github.com/cloudwego/thriftgo/plugin"
 )
 
@@ -364,60 +363,7 @@ func (plugin *Plugin) response(res *thriftgo_plugin.Response) error {
 	return nil
 }
 
-func (plugin *Plugin) InsertTag() ([]*thriftgo_plugin.Generated, error) {
-	var res []*thriftgo_plugin.Generated
-
-	if plugin.args.NoRecurse {
-		outPath := plugin.req.OutputPath
-		packageName := getGoPackage(plugin.req.AST, nil)
-		fileName := util.BaseNameAndTrim(plugin.req.AST.GetFilename()) + ".go"
-		outPath = filepath.Join(outPath, packageName, fileName)
-		for _, st := range plugin.req.AST.Structs {
-			stName := st.GetName()
-			for _, f := range st.Fields {
-				fieldName := f.GetName()
-				tagString, err := getTagString(f, plugin.rmTags)
-				if err != nil {
-					return nil, err
-				}
-				insertPointer := "struct." + stName + "." + fieldName + "." + "tag"
-				gen := &thriftgo_plugin.Generated{
-					Content:        tagString,
-					Name:           &outPath,
-					InsertionPoint: &insertPointer,
-				}
-				res = append(res, gen)
-			}
-		}
-		return res, nil
-	}
-
-	for ast := range plugin.req.AST.DepthFirstSearch() {
-		outPath := plugin.req.OutputPath
-		packageName := getGoPackage(ast, nil)
-		fileName := util.BaseNameAndTrim(ast.GetFilename()) + ".go"
-		outPath = filepath.Join(outPath, packageName, fileName)
-
-		for _, st := range ast.Structs {
-			stName := st.GetName()
-			for _, f := range st.Fields {
-				fieldName := f.GetName()
-				tagString, err := getTagString(f, plugin.rmTags)
-				if err != nil {
-					return nil, err
-				}
-				insertPointer := "struct." + stName + "." + fieldName + "." + "tag"
-				gen := &thriftgo_plugin.Generated{
-					Content:        tagString,
-					Name:           &outPath,
-					InsertionPoint: &insertPointer,
-				}
-				res = append(res, gen)
-			}
-		}
-	}
-	return res, nil
-}
+// InsertTag 方法已移除，现在由 thriftgo 直接处理所有标签生成
 
 func (plugin *Plugin) GetResponse(files []generator.File, outputDir string) (*thriftgo_plugin.Response, error) {
 	var contents []*thriftgo_plugin.Generated
@@ -430,48 +376,10 @@ func (plugin *Plugin) GetResponse(files []generator.File, outputDir string) (*th
 		contents = append(contents, content)
 	}
 
-	// 不再需要 InsertTag，因为 thriftgo 已经直接生成了带有标签的代码
+	// 现在完全由 thriftgo 处理所有标签生成，包括 go.tag 注解和默认的 HTTP 标签
 	return &thriftgo_plugin.Response{
 		Contents: contents,
 	}, nil
 }
 
-func getTagString(f *parser.Field, rmTags []string) (string, error) {
-	field := model.Field{}
-	err := injectTags(f, &field, true, false)
-	if err != nil {
-		return "", err
-	}
-	disableTag := false
-	if v := getAnnotation(f.Annotations, AnnotationNone); len(v) > 0 {
-		if strings.EqualFold(v[0], "true") {
-			disableTag = true
-		}
-	}
-
-	for _, rmTag := range rmTags {
-		for _, t := range field.Tags {
-			if t.IsDefault && strings.EqualFold(t.Key, rmTag) {
-				field.Tags.Remove(t.Key)
-			}
-		}
-	}
-
-	var tagString string
-	tags := field.Tags
-	for idx, tag := range tags {
-		value := tag.Value
-		if disableTag {
-			value = "-"
-		}
-		if idx == 0 {
-			tagString += " " + tag.Key + ":\"" + value + "\"" + " "
-		} else if idx == len(tags)-1 {
-			tagString += tag.Key + ":\"" + value + "\""
-		} else {
-			tagString += tag.Key + ":\"" + value + "\"" + " "
-		}
-	}
-
-	return tagString, nil
-}
+// getTagString 方法已移除，现在由 thriftgo 直接处理所有标签生成

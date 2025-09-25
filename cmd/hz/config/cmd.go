@@ -173,13 +173,13 @@ func BuildPluginCmd(args *Argument) (*exec.Cmd, error) {
 }
 
 func (arg *Argument) GetThriftgoOptions() (string, error) {
-	// 默认启用 GenDefaultHTTPTags，除非用户明确禁用
+	// 默认启用 GenDefaultHTTPTags，使用 thriftgo 的标签生成功能
 	genDefaultHTTPTags := "gen_default_http_tags=true"
-	if !arg.GenDefaultHTTPTags {
-		genDefaultHTTPTags = "gen_default_http_tags=false"
-	}
+	// if !arg.GenDefaultHTTPTags {
+	// 	genDefaultHTTPTags = "gen_default_http_tags=false"
+	// }
 
-	defaultOpt := "reserve_comments,gen_json_tag=false," + genDefaultHTTPTags + ","
+	defaultOpt := "reserve_comments,frugal_tag,gen_json_tag=true," + genDefaultHTTPTags + ","
 	prefix, err := arg.ModelPackagePrefix()
 	if err != nil {
 		return "", err
@@ -189,5 +189,6 @@ func (arg *Argument) GetThriftgoOptions() (string, error) {
 		arg.ThriftOptions = append(arg.ThriftOptions, "json_enum_as_text")
 	}
 	gas := "go:" + defaultOpt + strings.Join(arg.ThriftOptions, ",")
+	fmt.Println("gas:", gas)
 	return gas, nil
 }

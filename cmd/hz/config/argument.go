@@ -57,25 +57,26 @@ type Argument struct {
 	Use         string
 	NeedGoMod   bool
 
-	JSONEnumStr          bool
-	QueryEnumAsInt       bool
-	UnsetOmitempty       bool
-	ProtobufCamelJSONTag bool
-	ProtocOptions        []string // options to pass through to protoc
-	ThriftOptions        []string // options to pass through to thriftgo for go flag
-	ProtobufPlugins      []string
-	ThriftPlugins        []string
-	SnakeName            bool
-	RmTags               []string
-	Excludes             []string
-	NoRecurse            bool
-	HandlerByMethod      bool
-	ForceNew             bool
-	ForceUpdateClient    bool
-	SnakeStyleMiddleware bool
-	EnableExtends        bool
-	SortRouter           bool
-	GenDefaultHTTPTags   bool // 控制是否生成默认的 HTTP 标签（form, query）
+	JSONEnumStr           bool
+	QueryEnumAsInt        bool
+	UnsetOmitempty        bool
+	ProtobufCamelJSONTag  bool
+	ProtocOptions         []string // options to pass through to protoc
+	ThriftOptions         []string // options to pass through to thriftgo for go flag
+	ProtobufPlugins       []string
+	ThriftPlugins         []string
+	SnakeName             bool
+	RmTags                []string
+	Excludes              []string
+	NoRecurse             bool
+	HandlerByMethod       bool
+	ForceNew              bool
+	ForceUpdateClient     bool
+	SnakeStyleMiddleware  bool
+	EnableExtends         bool
+	SortRouter            bool
+	GenDefaultHTTPTags    bool // 控制是否生成默认的 HTTP 标签（form, query）
+	DisableHertzTagPlugin bool // 禁用 hz 的标签处理插件，让 thriftgo 直接处理所有标签
 
 	// client flag
 	EnableClientOptional bool
@@ -88,12 +89,13 @@ type Argument struct {
 
 func NewArgument() *Argument {
 	return &Argument{
-		OptPkgMap:          make(map[string]string),
-		Includes:           make([]string, 0, 4),
-		Excludes:           make([]string, 0, 4),
-		ProtocOptions:      make([]string, 0, 4),
-		ThriftOptions:      make([]string, 0, 4),
-		GenDefaultHTTPTags: true, // 默认启用生成默认 HTTP 标签
+		OptPkgMap:             make(map[string]string),
+		Includes:              make([]string, 0, 4),
+		Excludes:              make([]string, 0, 4),
+		ProtocOptions:         make([]string, 0, 4),
+		ThriftOptions:         make([]string, 0, 4),
+		GenDefaultHTTPTags:    true, // 默认启用生成默认 HTTP 标签
+		DisableHertzTagPlugin: true, // 默认禁用 hz 的标签处理插件
 	}
 }
 
