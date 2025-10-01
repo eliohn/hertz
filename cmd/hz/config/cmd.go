@@ -179,7 +179,7 @@ func (arg *Argument) GetThriftgoOptions() (string, error) {
 	// 	genDefaultHTTPTags = "gen_default_http_tags=false"
 	// }
 
-	defaultOpt := "reserve_comments,frugal_tag,gen_json_tag=true," + genDefaultHTTPTags + ","
+	defaultOpt := "reserve_comments,frugal_tag,gen_setter,template=slim,gen_json_tag=true,no_default_serdes=true," + genDefaultHTTPTags + ","
 	prefix, err := arg.ModelPackagePrefix()
 	if err != nil {
 		return "", err
