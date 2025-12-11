@@ -31,6 +31,8 @@ var funcMap = func() template.FuncMap {
 		"Split":                  strings.Split,
 		"Trim":                   strings.Trim,
 		"EqualFold":              strings.EqualFold,
+		"BaseName":               util.BaseName,
+		"IsRedundantAlias":       isRedundantAlias,
 	}
 	for key, f := range sprig.TxtFuncMap() {
 		m[key] = f
@@ -49,4 +51,22 @@ func getUniqueHandlerOutDir(methods []*HttpMethod) (ret []string) {
 	}
 
 	return ret
+}
+
+// isRedundantAlias checks if the alias is redundant (same as package name)
+func isRedundantAlias(alias, packagePath string) bool {
+	packageName := util.BaseName(packagePath, "")
+
+	// Check if alias is the same as the original package name
+	if alias == packageName {
+		return true
+	}
+
+	// Check if alias is the same as the camelCase version of package name
+	camelCaseAlias := util.ToCamelCaseAlias(packageName)
+	if alias == camelCaseAlias {
+		return true
+	}
+
+	return false
 }

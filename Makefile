@@ -58,7 +58,8 @@ version:
 build_tool:
 	cd ./cmd/hz && go build -o bin/hz.exe .
 
-
+build_tool_macos:
+	@GOOS=darwin GOARCH=amd64 CGO_ENABLED=0  cd ./cmd/hz && go build -o bin/hz .
 
 install_tool: build_tool
 	cd ./cmd/hz/bin && cp hz.exe C:\\Users\\yihui\\go\\bin

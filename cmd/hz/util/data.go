@@ -310,6 +310,24 @@ func ToVarName(paths []string) string {
 	return string(out)
 }
 
+// ToCamelCaseAlias converts a package name to a camelCase alias
+func ToCamelCaseAlias(packageName string) string {
+	// Split by underscore and convert to camelCase
+	parts := strings.Split(packageName, "_")
+	if len(parts) == 1 {
+		return parts[0]
+	}
+	
+	result := parts[0]
+	for i := 1; i < len(parts); i++ {
+		if len(parts[i]) > 0 {
+			result += strings.ToUpper(parts[i][:1]) + parts[i][1:]
+		}
+	}
+	
+	return result
+}
+
 func SplitGoTags(input string) []string {
 	out := make([]string, 0, 4)
 	ns := len(input)
