@@ -353,9 +353,17 @@ func (pkgGen *HttpPackageGenerator) updateRegister(pkg, rDir, pkgName string) er
 	insertReg := register.DepPkgAlias + ".Register(r)\n"
 
 	if !checkDupRegister(file, insertReg) {
-		file, err = util.AddImport(registerPath, register.DepPkgAlias, register.DepPkg)
-		if err != nil {
-			return err
+		// 检查 import 是否已存在，如果已存在则跳过添加
+		if !bytes.Contains(file, []byte(register.DepPkg)) {
+			file, err = util.AddImport(registerPath, register.DepPkgAlias, register.DepPkg)
+			if err != nil {
+				return err
+			}
+		}
+
+		// 在添加注册代码之前，再次检查是否已存在（因为 import 可能已存在，说明路由可能已注册）
+		if checkDupRegister(file, insertReg) {
+			return nil
 		}
 
 		subIndexReg := regRegisterV3.FindSubmatchIndex(file)
@@ -375,7 +383,33 @@ func (pkgGen *HttpPackageGenerator) updateRegister(pkg, rDir, pkgName string) er
 }
 
 func checkDupRegister(file []byte, insertReg string) bool {
-	return bytes.Contains(file, []byte("\t"+insertReg)) || bytes.Contains(file, []byte(" "+insertReg))
+	// 提取注册代码的核心部分（去掉换行符）
+	// insertReg 格式为: "pkgAlias.Register(r)\n"
+	coreReg := strings.TrimSpace(insertReg)
+	
+	// 检查各种可能的缩进格式：
+	// 1. 制表符 + 注册代码
+	if bytes.Contains(file, []byte("\t"+insertReg)) {
+		return true
+	}
+	// 2. 单个或多个空格 + 注册代码
+	// 使用正则表达式匹配：行首可能有任意数量的空格/制表符，然后是注册代码
+	pattern := regexp.MustCompile(`(?m)^[\t ]+` + regexp.QuoteMeta(coreReg) + `\s*$`)
+	if pattern.Match(file) {
+		return true
+	}
+	
+	// 3. 检查核心注册代码是否作为独立行存在（去掉前后空白）
+	lines := bytes.Split(file, []byte("\n"))
+	for _, line := range lines {
+		trimmed := bytes.TrimSpace(line)
+		// 检查是否是完整的注册代码行（可能以分号结尾）
+		if bytes.Equal(trimmed, []byte(coreReg)) || bytes.Equal(trimmed, []byte(coreReg+";")) {
+			return true
+		}
+	}
+	
+	return false
 }
 
 func appendMw(mws []string, mw string) ([]string, string) {

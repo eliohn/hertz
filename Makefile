@@ -61,6 +61,6 @@ build_tool:
 build_tool_macos:
 	@GOOS=darwin GOARCH=amd64 CGO_ENABLED=0  cd ./cmd/hz && go build -o bin/hz .
 
-install_tool: build_tool
+install: build_tool
 	cd ./cmd/hz/bin && cp hz.exe C:\\Users\\yihui\\go\\bin
 	echo "install tool success"
