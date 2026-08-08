@@ -322,3 +322,18 @@ func (h *Handler) Format() {
 		m.InitComment()
 	}
 }
+
+// UnusedImports returns a map of package alias to a type expression that forces
+// Go to consider the import as used. This is needed because some imports are only
+// referenced in swagger annotations (comments), which Go doesn't count as usage.
+func (h *Handler) UnusedImports() map[string]string {
+	result := make(map[string]string, len(h.Imports))
+	for alias, m := range h.Imports {
+		if len(m.Structs) > 0 {
+			result[alias] = alias + "." + m.Structs[0].Name + "{}"
+		} else if len(m.Enums) > 0 {
+			result[alias] = alias + "." + m.Enums[0].Name + "(0)"
+		}
+	}
+	return result
+}

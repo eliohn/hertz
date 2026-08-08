@@ -75,7 +75,7 @@ import (
 
 {{range $_, $MethodInfo := .Methods}}
 {{$MethodInfo.Comment}}
-func {{$MethodInfo.Name}}(ctx context.Context, c *app.RequestContext) { 
+func {{$MethodInfo.Name}}(ctx context.Context, c *app.RequestContext) {
 	var err error
 	{{if ne $MethodInfo.RequestTypeName "" -}}
 	var req {{$MethodInfo.RequestTypeName}}
@@ -90,6 +90,15 @@ func {{$MethodInfo.Name}}(ctx context.Context, c *app.RequestContext) {
 	c.{{.Serializer}}(consts.StatusOK, resp)
 }
 {{end}}
+{{- if .UnusedImports}}
+
+// Ensure imports are not reported as unused (referenced by swagger annotations).
+var (
+{{- range $alias, $expr := .UnusedImports}}
+	_ = {{$expr}}
+{{- end}}
+)
+{{- end}}
 			`,
 		},
 		{
